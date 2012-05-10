@@ -5,7 +5,7 @@ DONE 1) what does <dish - one or many> consists of (response: a list of ingredie
 
 DONE 2) what consists of <ingredient> (response: a list of dishes)
 
-3) does <dish> consists of <ingredient - one or many>? (response: YES/NO)
+In progress...Bulat 3) does <dish> consists of <ingredient - one or many>? (response: YES/NO)
 
 4) is <dish> vegetarian (response - YES/NO)
 
