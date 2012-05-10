@@ -1,0 +1,36 @@
+S::(B)(A) -> NP:=A VP:=B
+S::(B)(A) -> NPWH:=B AUX S:=A
+S::(B)(A) -> NPWH:=B VP:=A
+S::(\z.S) !-> S/NP/Z:=S
+S/NP/Z::(B)(A) -> NP:=A VP/Z:=B
+
+NP::(A) -> N:=A
+NP -> NP:=A AND NP:=A
+
+PP::(A) -> P NP:=A
+
+VP::(B)(A) -> V/TRANS:=B NP:=A
+VP::(B)(A) -> V/TRANS:=B PP:=A
+VP::(B)(A) -> V/INTRANS:=B NP:=A
+VP::(B)(A) -> V/INTRANS:=B PP:=A
+VP::(\x.A(x)&&B(x)) -> VP:=A AND VP:=B
+VP::(\x.A(x)||B(x)) -> VP:=A OR VP:=B
+VP/Z::(B)(z) -> V/INTRANS:=B
+VP/Z::(B)(z) -> V/TRANS:=B P
+VP/Z::(\x.A(x)&&B(x)) -> VP/Z:=A AND VP/Z:=B
+
+V/TRANS::(\y.\x.Consists(x,y)) -> consists
+V/TRANS::(\y.\x.Consists(x,y)) -> consist
+
+NPWH::(\P.P) -> what
+
+N::Pizza -> pizza
+N::Lasagna -> lasagna
+N::Cheese -> cheese
+N::Tomato -> tomato
+
+P -> of
+AND -> and
+
+AUX -> do
+AUX -> does

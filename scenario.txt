@@ -1,0 +1,9 @@
+.clear
+pizza consists of cheese
+pizza consists of tomato
+lasagna consists of cheese
+.dump
+.trace
+.debug
+what does pizza consist of
+what consists of cheese

@@ -1,0 +1,31 @@
+S::(B)(A) -> NP:=A VP:=B
+S::(B)(A) -> NPWH:=B AUX S:=A
+S::(B)(A) -> NPWH:=B VP:=A
+S::(\z.S) !-> S/NP/Z:=S
+S/NP/Z::(B)(A) -> NP:=A VP/Z:=B
+
+NP::(A) -> NN:=A
+NP -> NP:=A AND NP:=A
+
+VP::(B)(A) -> V:=B NP:=A
+VP::(\x.A(x)&&B(x)) -> VP:=A AND VP:=B
+VP::(\x.A(x)||B(x)) -> VP:=A OR VP:=B
+VP/Z::(B)(z) -> V:=B
+VP/Z::(\x.A(x)&&B(x)) -> VP/Z:=A AND VP/Z:=B
+
+V::(\y.\x.Likes(x,y)) -> like
+V::(\y.\x.Likes(x,y)) -> likes
+V::(\y.\x.Hates(x,y)) -> hate
+V::(\y.\x.Hates(x,y)) -> hates
+
+NPWH::(\P.P) -> whom
+NPWH::(\P.P) -> who
+
+NN::John -> john
+NN::Mary -> mary
+NN::Sam  -> sam
+
+AND -> and
+
+AUX -> do
+AUX -> does
