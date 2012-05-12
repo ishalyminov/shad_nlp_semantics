@@ -20,6 +20,17 @@ class SqlGenerator:
 
         self.stack = []
 
+    def is_exist(self, node):
+        variables, body = node.uncurry()
+        return \
+            isinstance(node, nodes.Lambda) and \
+            isinstance(body, nodes.Application) and \
+            isinstance(body.argument, nodes.Symbol) and \
+            isinstance(body.function, nodes.Application) and \
+            isinstance(body.function.argument, nodes.Symbol) and \
+            isinstance(variables, list) and \
+            isinstance(variables[0], basestring)
+
     def is_insert(self, node):
         return \
             isinstance(node, nodes.Application) or \
@@ -112,30 +123,49 @@ class SqlGenerator:
 
             yield "INSERT INTO %s VALUES %s" % (table_clause, values_clause)
 
+    def make_is_exist(self, node):
+        self.type = "SELECT"
+
+        variables, body = node.uncurry()
+
+        self._visit_combinator(self._visit_function(body))
+        self._induce_variable_constraints()
+
+        from_clause = ", ".join(map(
+            lambda t: "%s AS %s" % t,
+            self.tables))
+
+        where_clause = " AND ".join(map(
+            lambda c: "%s = %s" % (self.resolve_value(c[0:2]), self.resolve_value(c[2])),
+            self.constraints))
+
+        yield "SELECT CASE WHEN count(*)=0 THEN 'NO' ELSE 'YES' END FROM {0} WHERE {1}".format(from_clause, where_clause)
+
     def make_select(self, node):
         self.type = "SELECT"
 
         variables, body = node.uncurry()
-        
+
         self._visit_combinator(self._visit_function(body))
         self._induce_variable_constraints()
 
         result_clause = ", ".join(map(
-            lambda kv: "%s AS %s" % (self.resolve_value(list(kv[1])[0]), kv[0]),
-            self.variables.items()))
+                lambda kv: "%s AS %s" % (self.resolve_value(list(kv[1])[0]), kv[0]),
+                self.variables.items()))
         from_clause = ", ".join(map(
             lambda t: "%s AS %s" % t,
             self.tables))
         where_clause = " AND ".join(map(
-            lambda c: "%s = %s" % (self.resolve_value(c[0:2]), self.resolve_value(c[2])), 
+            lambda c: "%s = %s" % (self.resolve_value(c[0:2]), self.resolve_value(c[2])),
             self.constraints))
 
         yield "SELECT {0} FROM {1} WHERE {2}".format(result_clause, from_clause, where_clause)
 
     def make_sql(self, node):
         generator = None
-
-        if self.is_insert(node):
+        if self.is_exist(node):
+            generator = self.make_is_exist(node)
+        elif self.is_insert(node):
             generator = self.make_insert(node)
         elif self.is_select(node):
             generator = self.make_select(node)

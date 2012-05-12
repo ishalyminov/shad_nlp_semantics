@@ -1,5 +1,6 @@
 S::(B)(A) -> NP:=A VP:=B
 S::(B)(A) -> NPWH:=B AUX S:=A
+S::(\z.B) -> AUX S:=B
 S::(B)(A) -> NPWH:=B VP:=A
 S::(\z.S) !-> S/NP/Z:=S
 S/NP/Z::(B)(A) -> NP:=A VP/Z:=B

@@ -7,3 +7,6 @@ lasagna consists of cheese
 .debug
 what does pizza consist of
 what consists of cheese
+does lasagna consists of tomato
+does lasagna consists of cheese
+does pizza consists of cheese
