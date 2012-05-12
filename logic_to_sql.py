@@ -9,6 +9,7 @@ import logic_ast_nodes as nodes
 class SqlGenerator:
     SYMBOL_MAPPING = {
         'Consists' : 'my_consists',
+        'Count' : 'my_consists'
     }
 
     def __init__(self):
@@ -20,6 +21,14 @@ class SqlGenerator:
 
         self.stack = []
 
+    def is_count(self, node):
+        variables, body = node.uncurry()
+        return \
+            isinstance(node, nodes.Application) and \
+            isinstance(node.argument, nodes.Lambda) and \
+            isinstance(node.function, nodes.Symbol) and \
+            node.function.name == 'Count'
+    
     def is_exist(self, node):
         variables, body = node.uncurry()
         return \
@@ -158,12 +167,33 @@ class SqlGenerator:
         where_clause = " AND ".join(map(
             lambda c: "%s = %s" % (self.resolve_value(c[0:2]), self.resolve_value(c[2])),
             self.constraints))
+        yield "SELECT {0} FROM {1} WHERE {2}".format(result_clause, from_clause, where_clause)
+        
+    # generating a 'count' query
+    def make_count(self, node):
+        self.type = "SELECT"
 
+        variables, body = node.argument.uncurry()
+
+        self._visit_combinator(self._visit_function(body))
+        self._induce_variable_constraints()
+
+        result_clause = ", ".join(map(
+                lambda kv: "COUNT(%s) AS %s" % (self.resolve_value(list(kv[1])[0]), kv[0]),
+                self.variables.items()))
+        from_clause = ", ".join(map(
+            lambda t: "%s AS %s" % t,
+            self.tables))
+        where_clause = " AND ".join(map(
+            lambda c: "%s = %s" % (self.resolve_value(c[0:2]), self.resolve_value(c[2])),
+            self.constraints))
         yield "SELECT {0} FROM {1} WHERE {2}".format(result_clause, from_clause, where_clause)
 
     def make_sql(self, node):
         generator = None
-        if self.is_exist(node):
+        if self.is_count(node):
+            generator = self.make_count(node)
+        elif self.is_exist(node):
             generator = self.make_is_exist(node)
         elif self.is_insert(node):
             generator = self.make_insert(node)

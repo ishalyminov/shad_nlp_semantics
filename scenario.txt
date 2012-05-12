@@ -10,3 +10,6 @@ what consists of cheese
 does lasagna consists of tomato
 does lasagna consists of cheese
 does pizza consists of cheese
+how many dishes consist of cheese
+how many dishes consist of tomato
+how many dishes consist of pizza

@@ -9,13 +9,16 @@ import traceback
 import earley
 import logic_to_sql
 
+def filter_comments(in_lines):
+    return [line for line in in_lines if len(line.strip()) and not line.strip()[0] == '#']
+
 class SimpleREPL(cmd.Cmd):
     def __init__(self, stream):
         print repr(stream)
         cmd.Cmd.__init__(self, "Tab", stream)
         self.prompt = ">> "
         self.intro = """
-This is a simple Like-Hate query console.
+Ask on some of your favourite food.
 There are a few service commands:
 
   .init     Creates all tables
@@ -26,9 +29,9 @@ There are a few service commands:
 """
         self.interactive = (stream == sys.stdin)
         self.connection = sqlite3.connect("example.db")
-        self.grammar = earley.load_grammar(open("repl.txt", "r").readlines())
-        self.debug = False
-        self.trace = False
+        self.grammar = earley.load_grammar(filter_comments(open("repl.txt", "r").readlines()))
+        self.debug = True
+        self.trace = True
 
         if not self.interactive:
             self.use_rawinput = False
@@ -79,7 +82,7 @@ There are a few service commands:
     def cmd_dump(self):
         print "== Contains =" + "=" * 70
         for row in self._execute("SELECT * FROM my_consists"):
-            print ":", "Contains(%s)" % ", ".join(row)
+            print ":", "Consists(%s)" % ", ".join(row)
         
         '''print "== Hates =" + "=" * 70
         for row in self._execute("SELECT * FROM my_hates"):
@@ -88,7 +91,7 @@ There are a few service commands:
     def cmd_eval(self, semantics):
         for query in logic_to_sql.SqlGenerator().make_sql(semantics):
             for row in self._execute(query):
-                print ":", " ".join(row)
+                print ":", " ".join([str(element) for element in row])
 
     def emptyline(self):
         pass

@@ -17,7 +17,7 @@ In progress... Alex 4) is <dish> vegetarian (response - YES/NO)
 
 8) how many dishes are kosher (response: a number)
 
-In progress... Igor 9) how many dishes consist of <ingredient>? (response: a number)
+DONE 9) how many dishes consist of <ingredient>? (response: a number)
 
 10) how many ingredients does <dish> consists of? (response: a number)
 
