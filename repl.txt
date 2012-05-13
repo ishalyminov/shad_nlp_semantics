@@ -3,9 +3,15 @@ S::(B)(A) -> NPWH:=B AUX S:=A
 S::(\z.B) -> AUX S:=B
 S::(B)(A) -> NPWH:=B VP:=A
 
+# sentence with a gap in verb phrase
+S/GAP::(B)(A) -> NP:=A VP/GAP:=B
+
 # HOW MANY-questions
-S::(\z.Count(z))(A) -> NPWH/CNT NP VP:=A
-S::(\w.Count(w))(A) -> NPWH/CNT S:=A
+S::(\z.Count(z))(A) -> NPWH/CNT VP:=A
+S::(\w.Count(w))(\z.B) -> NPWH/CNT AUX S/GAP:=B
+
+# HOW LONG-questions
+S::(\z.A) -> NPWH/TIME AUX S/GAP:=A
 
 # IS-questions
 
@@ -30,16 +36,21 @@ VP/Z::(B)(z) -> V/INTRANS:=B
 VP/Z::(B)(z) -> V/TRANS:=B P
 VP/Z::(\x.A(x)&&B(x)) -> VP/Z:=A AND VP/Z:=B
 
+VP/GAP::(B)(z) -> V/TRANS:=B
+VP/GAP::(B)(z) -> V/TRANS:=B P
+
 V/TRANS::(\y.\x.Consists(x,y)) -> consists
 V/TRANS::(\y.\x.Consists(x,y)) -> consist
 V/TRANS::(\y.\x.Is(x,y)) -> is
 V/TRANS::(\y.\x.Takes(x,y)) -> takes
+V/TRANS::(\y.\x.Takes(x,y)) -> take
 
 NPWH::(\P.P) -> what
 NPWH/CNT -> how many
 NPWH/CNT -> NPWH/CNT NP
 NPWH/INCNT -> how much
 NPWH/IS -> is
+NPWH/TIME -> how long
 
 N::Pizza -> pizza
 N::Lasagna -> lasagna

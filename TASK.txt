@@ -21,7 +21,7 @@ DONE 9) how many dishes consist of <ingredient>? (response: a number)
 
 DONE 10) how many ingredients does <dish> consists of? (response: a number)
 
-11) how long does <dish> take (response: cooking time, a string or number)
+DONE 11) how long does <dish> take (response: cooking time, a string or number)
 
 12) how much is <dish/ingredient> (response: a number, for a dish: the sum of costs for all the ingredients)
 
