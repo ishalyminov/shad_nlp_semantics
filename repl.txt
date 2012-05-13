@@ -5,6 +5,7 @@ S::(B)(A) -> NPWH:=B VP:=A
 
 # HOW MANY-questions
 S::(\z.Count(z))(A) -> NPWH/CNT NP VP:=A
+S::(\w.Count(w))(A) -> NPWH/CNT S:=A
 
 # IS-questions
 
@@ -34,6 +35,7 @@ V/TRANS::(\y.\x.Is(x,y)) -> is
 
 NPWH::(\P.P) -> what
 NPWH/CNT -> how many
+NPWH/CNT -> NPWH/CNT NP
 NPWH/INCNT -> how much
 NPWH/IS -> is
 
@@ -45,6 +47,7 @@ N::Vegetarian -> vegetarian
 
 N::Kosher -> kosher
 N -> dishes
+N -> ingredients
 
 P -> of
 AND -> and

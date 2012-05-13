@@ -19,7 +19,7 @@ In progress... Bulat (after 16 May) 6) how many calories does <dish/ingredient> 
 
 DONE 9) how many dishes consist of <ingredient>? (response: a number)
 
-In progress... Igor 10) how many ingredients does <dish> consists of? (response: a number)
+DONE 10) how many ingredients does <dish> consists of? (response: a number)
 
 11) how long does <dish> take (response: cooking time, a string or number)
 

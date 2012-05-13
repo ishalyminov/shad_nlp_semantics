@@ -19,3 +19,5 @@ is pizza vegetarian
 is lasagna vegetarian
 is pizza kosher
 is lasagna kosher
+how many ingredients does pizza consist of
+how many ingredients does lasagna consist of
