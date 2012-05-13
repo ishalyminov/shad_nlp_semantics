@@ -2,6 +2,8 @@
 pizza consists of cheese
 pizza consists of tomato
 lasagna consists of cheese
+pizza is vegetarian
+lasagna is kosher
 .dump
 .trace
 .debug
@@ -13,3 +15,7 @@ does pizza consists of cheese
 how many dishes consist of cheese
 how many dishes consist of tomato
 how many dishes consist of pizza
+is pizza vegetarian
+is lasagna vegetarian
+is pizza kosher
+is lasagna kosher

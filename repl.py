@@ -53,14 +53,17 @@ There are a few service commands:
 
     def cmd_init(self):
         self._execute_sync("CREATE TABLE my_consists(arg0 TEXT, arg1 TEXT)")
+        self._execute_sync("CREATE TABLE my_is(arg0 TEXT, arg1 TEXT)")
         # self._execute_sync("CREATE TABLE my_hates(arg0 TEXT, arg1 TEXT)")
 
     def cmd_fini(self):
         self._execute_sync("DROP TABLE my_consists")
+        self._execute_sync("DROP TABLE my_is")
         # self._execute_sync("DROP TABLE my_hates")
 
     def cmd_clear(self):
         self._execute_sync("DELETE FROM my_consists")
+        self._execute_sync("DELETE FROM my_is")
         # self._execute_sync("DELETE FROM my_hates")
 
     def cmd_debug(self):

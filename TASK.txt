@@ -7,9 +7,9 @@ DONE 2) what consists of <ingredient> (response: a list of dishes)
 
 DONE 3) does <dish> consists of <ingredient - one or many>? (response: YES/NO)
 
-In progress... Alex 4) is <dish> vegetarian (response - YES/NO)
+DONE 4) is <dish> vegetarian (response - YES/NO)
 
-5) is <dish> kosher (response - YES/NO)
+DONE 5) is <dish> kosher (response - YES/NO)
 
 In progress... Bulat (after 16 May) 6) how many calories does <dish/ingredient> have (response: a number, for a dish: the sum of nutrition for all the ingredients)
 

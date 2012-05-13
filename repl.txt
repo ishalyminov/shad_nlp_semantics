@@ -6,6 +6,10 @@ S::(B)(A) -> NPWH:=B VP:=A
 # HOW MANY-questions
 S::(\z.Count(z))(A) -> NPWH/CNT NP VP:=A
 
+# IS-questions
+
+S::(\z.(\y.\x.Is(x,y))(A)(B)) -> NPWH/IS NP:=B NP:=A
+
 S::(\z.S) !-> S/NP/Z:=S
 S/NP/Z::(B)(A) -> NP:=A VP/Z:=B
 
@@ -26,15 +30,20 @@ VP/Z::(\x.A(x)&&B(x)) -> VP/Z:=A AND VP/Z:=B
 
 V/TRANS::(\y.\x.Consists(x,y)) -> consists
 V/TRANS::(\y.\x.Consists(x,y)) -> consist
+V/TRANS::(\y.\x.Is(x,y)) -> is
 
 NPWH::(\P.P) -> what
 NPWH/CNT -> how many
 NPWH/INCNT -> how much
+NPWH/IS -> is
 
 N::Pizza -> pizza
 N::Lasagna -> lasagna
 N::Cheese -> cheese
 N::Tomato -> tomato
+N::Vegetarian -> vegetarian
+
+N::Kosher -> kosher
 N -> dishes
 
 P -> of

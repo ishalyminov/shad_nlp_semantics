@@ -9,7 +9,8 @@ import logic_ast_nodes as nodes
 class SqlGenerator:
     SYMBOL_MAPPING = {
         'Consists' : 'my_consists',
-        'Count' : 'my_consists'
+        'Count' : 'my_consists',
+        'Is': 'my_is'
     }
 
     def __init__(self):
