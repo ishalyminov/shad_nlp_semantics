@@ -54,16 +54,19 @@ There are a few service commands:
     def cmd_init(self):
         self._execute_sync("CREATE TABLE my_consists(arg0 TEXT, arg1 TEXT)")
         self._execute_sync("CREATE TABLE my_is(arg0 TEXT, arg1 TEXT)")
+        self._execute_sync("CREATE TABLE my_takes(arg0 TEXT, arg1 TEXT)")
         # self._execute_sync("CREATE TABLE my_hates(arg0 TEXT, arg1 TEXT)")
 
     def cmd_fini(self):
         self._execute_sync("DROP TABLE my_consists")
         self._execute_sync("DROP TABLE my_is")
+        self._execute_sync("DROP TABLE my_takes")
         # self._execute_sync("DROP TABLE my_hates")
 
     def cmd_clear(self):
         self._execute_sync("DELETE FROM my_consists")
         self._execute_sync("DELETE FROM my_is")
+        self._execute_sync("DELETE FROM my_takes")
         # self._execute_sync("DELETE FROM my_hates")
 
     def cmd_debug(self):
@@ -83,13 +86,17 @@ There are a few service commands:
             print "SQL tracing enabled."
 
     def cmd_dump(self):
-        print "== Contains =" + "=" * 70
+        print "== Consists =" + "=" * 70
         for row in self._execute("SELECT * FROM my_consists"):
             print ":", "Consists(%s)" % ", ".join(row)
         
-        '''print "== Hates =" + "=" * 70
-        for row in self._execute("SELECT * FROM my_hates"):
-            print ":", "Hates(%s)" % ", ".join(row)'''
+        print "== Is =" + "=" * 70
+        for row in self._execute("SELECT * FROM my_is"):
+            print ":", "Is(%s)" % ", ".join(row)
+        
+        print "== Takes =" + "=" * 70
+        for row in self._execute("SELECT * FROM my_takes"):
+            print ":", "Takes(%s)" % ", ".join(row)
 
     def cmd_eval(self, semantics):
         for query in logic_to_sql.SqlGenerator().make_sql(semantics):

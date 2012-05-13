@@ -10,7 +10,8 @@ class SqlGenerator:
     SYMBOL_MAPPING = {
         'Consists' : 'my_consists',
         'Count' : 'my_consists',
-        'Is': 'my_is'
+        'Is': 'my_is',
+        'Takes': 'my_takes'
     }
 
     def __init__(self):

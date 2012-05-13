@@ -16,6 +16,7 @@ S/NP/Z::(B)(A) -> NP:=A VP/Z:=B
 
 NP::(A) -> N:=A
 NP -> NP:=A AND NP:=A
+NP::(A) -> D N:=A
 
 PP::(A) -> P NP:=A
 
@@ -32,6 +33,7 @@ VP/Z::(\x.A(x)&&B(x)) -> VP/Z:=A AND VP/Z:=B
 V/TRANS::(\y.\x.Consists(x,y)) -> consists
 V/TRANS::(\y.\x.Consists(x,y)) -> consist
 V/TRANS::(\y.\x.Is(x,y)) -> is
+V/TRANS::(\y.\x.Takes(x,y)) -> takes
 
 NPWH::(\P.P) -> what
 NPWH/CNT -> how many
@@ -49,8 +51,15 @@ N::Kosher -> kosher
 N -> dishes
 N -> ingredients
 
+N::Hour -> hour
+N::Minute -> minute
+N::Eternity -> eternity
+
 P -> of
 AND -> and
+
+D -> a
+D -> an
 
 AUX -> do
 AUX -> does
