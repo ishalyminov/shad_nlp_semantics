@@ -19,7 +19,7 @@ In progress... Alex 4) is <dish> vegetarian (response - YES/NO)
 
 DONE 9) how many dishes consist of <ingredient>? (response: a number)
 
-10) how many ingredients does <dish> consists of? (response: a number)
+In progress... Igor 10) how many ingredients does <dish> consists of? (response: a number)
 
 11) how long does <dish> take (response: cooking time, a string or number)
 
