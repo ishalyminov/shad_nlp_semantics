@@ -1,3 +1,4 @@
+S::(B)(A) -> NP:=A VP:=B N
 S::(B)(A) -> NP:=A VP:=B
 S::(B)(A) -> NPWH:=B AUX S:=A
 S::(\z.B) -> AUX S:=B
@@ -27,6 +28,7 @@ NP::(A) -> D N:=A
 
 PP::(A) -> P NP:=A
 
+#VP::(B)(A) -> V/TRANS:=B NP:=A NU
 VP::(B)(A) -> V/TRANS:=B NP:=A
 VP::(B)(A) -> V/TRANS:=B PP:=A
 VP::(B)(A) -> V/INTRANS:=B NP:=A
@@ -45,6 +47,7 @@ V/TRANS::(\y.\x.Consists(x,y)) -> consist
 V/TRANS::(\y.\x.Is(x,y)) -> is
 V/TRANS::(\y.\x.Takes(x,y)) -> takes
 V/TRANS::(\y.\x.Takes(x,y)) -> take
+V/TRANS::(\y.\x.Have(x,y)) -> have
 
 NPWH::(\P.P) -> what
 NPWH/CNT -> how many
@@ -63,10 +66,13 @@ N::Vegetarian -> vegetarian
 N::Kosher -> kosher
 N -> dishes
 N -> ingredients
+N -> calories
 
 N::Hour -> hour
 N::Minute -> minute
 N::Eternity -> eternity
+N::Ten -> ten
+N::Twenty -> twenty
 
 P -> of
 AND -> and

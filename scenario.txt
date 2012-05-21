@@ -1,4 +1,6 @@
 .clear
+tomato have twenty calories
+cheese have ten calories
 pizza consists of cheese
 pizza consists of tomato
 lasagna consists of cheese
@@ -7,8 +9,8 @@ salat is vegetarian
 lasagna is kosher
 pizza takes an hour
 lasagna takes an eternity
-.dump
 .debug
+.dump
 what does pizza consist of
 what consists of cheese
 does lasagna consists of tomato
@@ -27,3 +29,5 @@ how long does pizza take
 how long does lasagna take
 how many dishes are vegetarian
 how many dishes are kosher
+how many calories does cheese have
+how many calories does tomato have

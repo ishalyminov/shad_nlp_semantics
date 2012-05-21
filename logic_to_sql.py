@@ -8,10 +8,15 @@ import logic_ast_nodes as nodes
 
 class SqlGenerator:
     SYMBOL_MAPPING = {
-        'Consists' : 'my_consists',
-        'Count' : 'my_consists',
+        'Consists': 'my_consists',
+        'Count': 'my_consists',
         'Is': 'my_is',
-        'Takes': 'my_takes'
+        'Takes': 'my_takes',
+        'Have': 'my_have'
+    }
+    DIGIT_MAPPING = {
+        'Ten': 10,
+        'Twenty': 20
     }
 
     def __init__(self):
@@ -25,33 +30,33 @@ class SqlGenerator:
 
     def is_count(self, node):
         variables, body = node.uncurry()
-        return \
-            isinstance(node, nodes.Application) and \
-            isinstance(node.argument, nodes.Lambda) and \
-            isinstance(node.function, nodes.Symbol) and \
-            node.function.name == 'Count'
-    
+        return\
+        isinstance(node, nodes.Application) and\
+        isinstance(node.argument, nodes.Lambda) and\
+        isinstance(node.function, nodes.Symbol) and\
+        node.function.name == 'Count'
+
     def is_exist(self, node):
         variables, body = node.uncurry()
-        return \
-            isinstance(node, nodes.Lambda) and \
-            isinstance(body, nodes.Application) and \
-            isinstance(body.argument, nodes.Symbol) and \
-            isinstance(body.function, nodes.Application) and \
-            isinstance(body.function.argument, nodes.Symbol) and \
-            isinstance(variables, list) and \
-            isinstance(variables[0], basestring)
+        return\
+        isinstance(node, nodes.Lambda) and\
+        isinstance(body, nodes.Application) and\
+        isinstance(body.argument, nodes.Symbol) and\
+        isinstance(body.function, nodes.Application) and\
+        isinstance(body.function.argument, nodes.Symbol) and\
+        isinstance(variables, list) and\
+        isinstance(variables[0], basestring)
 
     def is_insert(self, node):
-        return \
-            isinstance(node, nodes.Application) or \
-            isinstance(node, nodes.Negation) or \
-            isinstance(node, nodes.And) or \
-            isinstance(node, nodes.Or)
+        return\
+        isinstance(node, nodes.Application) or\
+        isinstance(node, nodes.Negation) or\
+        isinstance(node, nodes.And) or\
+        isinstance(node, nodes.Or)
 
     def is_select(self, node):
-        return \
-            isinstance(node, nodes.Lambda)
+        return\
+        isinstance(node, nodes.Lambda)
 
     def resolve_column(self, table, n):
         return "arg%d" % n
@@ -74,7 +79,10 @@ class SqlGenerator:
             assert(len(value) >= 2)
             return "%s.%s" % (value[0], self.resolve_column(value[0], value[1]))
         elif isinstance(value, nodes.Symbol):
-            return repr(value.name)
+            if self.DIGIT_MAPPING.has_key(value.name):
+                return repr(self.DIGIT_MAPPING[value.name])
+            else:
+                return repr(value.name)
         else:
             raise RuntimeError, "Unable to deduce table name from value: {0}".format(repr(value))
 
@@ -122,7 +130,7 @@ class SqlGenerator:
         inserted_values = defaultdict(list)
 
         for table, column, value in self.constraints:
-            inserted_values[table].append( (self.resolve_column(table, column), self.resolve_value(value)) )
+            inserted_values[table].append((self.resolve_column(table, column), self.resolve_value(value)))
         for table in inserted_values.iterkeys():
             columns_and_values = inserted_values[table]
 
@@ -150,7 +158,8 @@ class SqlGenerator:
             lambda c: "%s = %s" % (self.resolve_value(c[0:2]), self.resolve_value(c[2])),
             self.constraints))
 
-        yield "SELECT CASE WHEN count(*)=0 THEN 'NO' ELSE 'YES' END FROM {0} WHERE {1}".format(from_clause, where_clause)
+        yield "SELECT CASE WHEN count(*)=0 THEN 'NO' ELSE 'YES' END FROM {0} WHERE {1}".format(from_clause,
+            where_clause)
 
     def make_select(self, node):
         self.type = "SELECT"
@@ -161,8 +170,8 @@ class SqlGenerator:
         self._induce_variable_constraints()
 
         result_clause = ", ".join(map(
-                lambda kv: "%s AS %s" % (self.resolve_value(list(kv[1])[0]), kv[0]),
-                self.variables.items()))
+            lambda kv: "%s AS %s" % (self.resolve_value(list(kv[1])[0]), kv[0]),
+            self.variables.items()))
         from_clause = ", ".join(map(
             lambda t: "%s AS %s" % t,
             self.tables))
@@ -170,7 +179,7 @@ class SqlGenerator:
             lambda c: "%s = %s" % (self.resolve_value(c[0:2]), self.resolve_value(c[2])),
             self.constraints))
         yield "SELECT {0} FROM {1} WHERE {2}".format(result_clause, from_clause, where_clause)
-        
+
     # generating a 'count' query
     def make_count(self, node):
         self.type = "SELECT"
@@ -180,9 +189,14 @@ class SqlGenerator:
         self._visit_combinator(self._visit_function(body))
         self._induce_variable_constraints()
 
+        group_count = 'COUNT'
+
+        if body.function.function.name == 'Have':
+            group_count = 'SUM'
+
         result_clause = ", ".join(map(
-                lambda kv: "COUNT(%s) AS %s" % (self.resolve_value(list(kv[1])[0]), kv[0]),
-                self.variables.items()))
+            lambda kv: group_count + "(%s) AS %s" % (self.resolve_value(list(kv[1])[0]), kv[0]),
+            self.variables.items()))
         from_clause = ", ".join(map(
             lambda t: "%s AS %s" % t,
             self.tables))

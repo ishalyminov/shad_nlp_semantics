@@ -55,18 +55,21 @@ There are a few service commands:
         self._execute_sync("CREATE TABLE my_consists(arg0 TEXT, arg1 TEXT)")
         self._execute_sync("CREATE TABLE my_is(arg0 TEXT, arg1 TEXT)")
         self._execute_sync("CREATE TABLE my_takes(arg0 TEXT, arg1 TEXT)")
+        self._execute_sync("CREATE TABLE my_have(arg0 TEXT, arg1 NUMBER)")
         # self._execute_sync("CREATE TABLE my_hates(arg0 TEXT, arg1 TEXT)")
 
     def cmd_fini(self):
         self._execute_sync("DROP TABLE my_consists")
         self._execute_sync("DROP TABLE my_is")
         self._execute_sync("DROP TABLE my_takes")
+        self._execute_sync("DROP TABLE my_have")
         # self._execute_sync("DROP TABLE my_hates")
 
     def cmd_clear(self):
         self._execute_sync("DELETE FROM my_consists")
         self._execute_sync("DELETE FROM my_is")
         self._execute_sync("DELETE FROM my_takes")
+        self._execute_sync("DELETE FROM my_have")
         # self._execute_sync("DELETE FROM my_hates")
 
     def cmd_debug(self):
@@ -97,6 +100,10 @@ There are a few service commands:
         print "== Takes =" + "=" * 70
         for row in self._execute("SELECT * FROM my_takes"):
             print ":", "Takes(%s)" % ", ".join(row)
+
+        print "== Have =" + "=" * 70
+        for row in self._execute("SELECT * FROM my_have"):
+            print ":", "Have(%s)" % ", ".join(tuple([row[0],str(row[1])]))
 
     def cmd_eval(self, semantics):
         for query in logic_to_sql.SqlGenerator().make_sql(semantics):
