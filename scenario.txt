@@ -3,11 +3,11 @@ pizza consists of cheese
 pizza consists of tomato
 lasagna consists of cheese
 pizza is vegetarian
+salat is vegetarian
 lasagna is kosher
 pizza takes an hour
 lasagna takes an eternity
 .dump
-.trace
 .debug
 what does pizza consist of
 what consists of cheese
@@ -25,3 +25,5 @@ how many ingredients does pizza consist of
 how many ingredients does lasagna consist of
 how long does pizza take
 how long does lasagna take
+how many dishes are vegetarian
+how many dishes are kosher

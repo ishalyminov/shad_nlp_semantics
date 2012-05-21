@@ -9,6 +9,7 @@ S/GAP::(B)(A) -> NP:=A VP/GAP:=B
 # HOW MANY-questions
 S::(\z.Count(z))(A) -> NPWH/CNT VP:=A
 S::(\w.Count(w))(\z.B) -> NPWH/CNT AUX S/GAP:=B
+S::(\w.Count(w))(\x.Is(x,B)) -> NPWH/CNT AUX N:=B
 
 # HOW LONG-questions
 S::(\z.A) -> NPWH/TIME AUX S/GAP:=A
@@ -53,6 +54,7 @@ NPWH/IS -> is
 NPWH/TIME -> how long
 
 N::Pizza -> pizza
+N::Salat -> salat
 N::Lasagna -> lasagna
 N::Cheese -> cheese
 N::Tomato -> tomato
@@ -74,3 +76,4 @@ D -> an
 
 AUX -> do
 AUX -> does
+AUX -> are

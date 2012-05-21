@@ -13,9 +13,9 @@ DONE 5) is <dish> kosher (response - YES/NO)
 
 In progress... Bulat (after 16 May) 6) how many calories does <dish/ingredient> have (response: a number, for a dish: the sum of nutrition for all the ingredients)
 
-7) how many dishes are vegetarian (response: a number)
+DONE 7) how many dishes are vegetarian (response: a number)
 
-8) how many dishes are kosher (response: a number)
+DONE 8) how many dishes are kosher (response: a number)
 
 DONE 9) how many dishes consist of <ingredient>? (response: a number)
 
