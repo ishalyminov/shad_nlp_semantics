@@ -25,5 +25,10 @@ DONE 11) how long does <dish> take (response: cooking time, a string or number)
 
 12) how much is <dish/ingredient> (response: a number, for a dish: the sum of costs for all the ingredients)
 
+13) how many dishes/ingredients are there
+
+14) what are the dishes/ingredients
+
+
 Advanced:
 13) How much of <ingredient> is in <dish>? (response: string)
