@@ -12,7 +12,10 @@ S::(\z.Count(z))(A) -> NPWH/CNT VP:=A
 S::(\w.Count(w))(\z.B) -> NPWH/CNT AUX S/GAP:=B
 S::(\w.Sum(w))(\z.B) -> NPWH/CNT NN AUX S/GAP:=B
 S::(\w.Count(w))(\x.Is(x,B)) -> NPWH/CNT AUX N:=B
-S::(\w.Count(w))(\x.\y.Consists(x,y)) -> NPWH/CNT AUX AUX
+S::(\w.Count(w))(\x.\y.Consists(x,y)) -> NPWH/CNT AUX THERE
+
+# WHAT-questions
+S::(\w.Distinctselect(w))(\x.\y.Consists(x,y)) -> NPWH/WHAT AUX THE N
 
 # HOW LONG-questions
 S::(\z.A) -> NPWH/TIME AUX S/GAP:=A
@@ -55,6 +58,7 @@ NPWH::(\P.P) -> what
 NPWH/CNT -> how many
 NPWH/CNT -> NPWH/CNT NP
 NPWH/INCNT -> how much
+NPWH/WHAT -> what
 NPWH/IS -> is
 NPWH/TIME -> how long
 
@@ -78,6 +82,8 @@ N::Twenty -> twenty
 
 P -> of
 AND -> and
+THERE -> there
+THE -> the
 
 D -> a
 D -> an
@@ -85,4 +91,3 @@ D -> an
 AUX -> do
 AUX -> does
 AUX -> are
-AUX -> there

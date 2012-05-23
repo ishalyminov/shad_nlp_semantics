@@ -27,7 +27,7 @@ DONE 11) how long does <dish> take (response: cooking time, a string or number)
 
 DONE 13) how many dishes are there
 
-14) what are the dishes/ingredients
+DONE 14) what are the ingredients
 
 
 Advanced:

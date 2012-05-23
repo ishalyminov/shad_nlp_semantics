@@ -28,6 +28,14 @@ class SqlGenerator:
 
         self.stack = []
 
+    def is_distinct_select(self, node):
+            variables, body = node.uncurry()
+            return\
+            isinstance(node, nodes.Application) and\
+            isinstance(node.argument, nodes.Lambda) and\
+            isinstance(node.function, nodes.Symbol) and\
+            (node.function.name == 'Distinctselect')
+
     def is_count(self, node):
         variables, body = node.uncurry()
         return\
@@ -180,6 +188,11 @@ class SqlGenerator:
             self.constraints))
         yield "SELECT {0} FROM {1} WHERE {2}".format(result_clause, from_clause, where_clause)
 
+    def make_distinct_select(self, node):
+        variables, body = node.argument.uncurry()
+        from_clause = self.SYMBOL_MAPPING[body.function.function.name]
+        yield "SELECT {0} FROM {1}".format("DISTINCT arg1", from_clause)
+
     # generating a 'count' query
     def make_count(self, node):
         self.type = "SELECT"
@@ -188,7 +201,7 @@ class SqlGenerator:
 
         if len(variables) == 2:
             from_clause = self.SYMBOL_MAPPING[body.function.function.name]
-            yield "SELECT {0} FROM {1}".format("COUNT(DISTINCT arg1)", from_clause)
+            yield "SELECT {0} FROM {1}".format("COUNT(DISTINCT arg0)", from_clause)
         else:
             self._visit_combinator(self._visit_function(body))
 
@@ -213,7 +226,9 @@ class SqlGenerator:
 
     def make_sql(self, node):
         generator = None
-        if self.is_count(node):
+        if self.is_distinct_select(node):
+            generator = self.make_distinct_select(node)
+        elif self.is_count(node):
             generator = self.make_count(node)
         elif self.is_exist(node):
             generator = self.make_is_exist(node)
