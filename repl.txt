@@ -1,4 +1,4 @@
-S::(B)(A) -> NP:=A VP:=B N
+S::(B)(A) -> NP:=A VP:=B NN
 S::(B)(A) -> NP:=A VP:=B
 S::(B)(A) -> NPWH:=B AUX S:=A
 S::(\z.B) -> AUX S:=B
@@ -10,7 +10,9 @@ S/GAP::(B)(A) -> NP:=A VP/GAP:=B
 # HOW MANY-questions
 S::(\z.Count(z))(A) -> NPWH/CNT VP:=A
 S::(\w.Count(w))(\z.B) -> NPWH/CNT AUX S/GAP:=B
+S::(\w.Sum(w))(\z.B) -> NPWH/CNT NN AUX S/GAP:=B
 S::(\w.Count(w))(\x.Is(x,B)) -> NPWH/CNT AUX N:=B
+S::(\w.Count(w))(\x.\y.Consists(x,y)) -> NPWH/CNT AUX AUX
 
 # HOW LONG-questions
 S::(\z.A) -> NPWH/TIME AUX S/GAP:=A
@@ -66,7 +68,7 @@ N::Vegetarian -> vegetarian
 N::Kosher -> kosher
 N -> dishes
 N -> ingredients
-N -> calories
+NN -> calories
 
 N::Hour -> hour
 N::Minute -> minute
@@ -83,3 +85,4 @@ D -> an
 AUX -> do
 AUX -> does
 AUX -> are
+AUX -> there

@@ -34,7 +34,7 @@ class SqlGenerator:
         isinstance(node, nodes.Application) and\
         isinstance(node.argument, nodes.Lambda) and\
         isinstance(node.function, nodes.Symbol) and\
-        node.function.name == 'Count'
+        (node.function.name == 'Count' or node.function.name == 'Sum')
 
     def is_exist(self, node):
         variables, body = node.uncurry()
@@ -186,24 +186,30 @@ class SqlGenerator:
 
         variables, body = node.argument.uncurry()
 
-        self._visit_combinator(self._visit_function(body))
-        self._induce_variable_constraints()
+        if len(variables) == 2:
+            from_clause = self.SYMBOL_MAPPING[body.function.function.name]
+            yield "SELECT {0} FROM {1}".format("COUNT(DISTINCT arg1)", from_clause)
+        else:
+            self._visit_combinator(self._visit_function(body))
 
-        group_count = 'COUNT'
+            self._induce_variable_constraints()
 
-        if body.function.function.name == 'Have':
-            group_count = 'SUM'
+            group_count = 'COUNT'
 
-        result_clause = ", ".join(map(
-            lambda kv: group_count + "(%s) AS %s" % (self.resolve_value(list(kv[1])[0]), kv[0]),
-            self.variables.items()))
-        from_clause = ", ".join(map(
-            lambda t: "%s AS %s" % t,
-            self.tables))
-        where_clause = " AND ".join(map(
-            lambda c: "%s = %s" % (self.resolve_value(c[0:2]), self.resolve_value(c[2])),
-            self.constraints))
-        yield "SELECT {0} FROM {1} WHERE {2}".format(result_clause, from_clause, where_clause)
+            if node.function.name == 'Sum':
+                group_count = 'Sum'
+
+            result_clause = ", ".join(map(
+                lambda kv: group_count + "(%s) AS %s" % (self.resolve_value(list(kv[1])[0]), kv[0]),
+                self.variables.items()))
+            from_clause = ", ".join(map(
+                lambda t: "%s AS %s" % t,
+                self.tables))
+
+            where_clause = " AND ".join(map(
+                lambda c: "%s = %s" % (self.resolve_value(c[0:2]), self.resolve_value(c[2])),
+                self.constraints))
+            yield "SELECT {0} FROM {1} WHERE {2}".format(result_clause, from_clause, where_clause)
 
     def make_sql(self, node):
         generator = None

@@ -31,3 +31,4 @@ how many dishes are vegetarian
 how many dishes are kosher
 how many calories does cheese have
 how many calories does tomato have
+how many dishes are there

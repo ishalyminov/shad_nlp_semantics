@@ -11,7 +11,7 @@ DONE 4) is <dish> vegetarian (response - YES/NO)
 
 DONE 5) is <dish> kosher (response - YES/NO)
 
-DONE PART 6) how many calories does <dish/ingredient> have (response: a number, for a dish: the sum of nutrition for all the ingredients)
+DONE 6) how many calories does ingredient have (response: a number)
 
 DONE 7) how many dishes are vegetarian (response: a number)
 
@@ -25,7 +25,7 @@ DONE 11) how long does <dish> take (response: cooking time, a string or number)
 
 12) how much is <dish/ingredient> (response: a number, for a dish: the sum of costs for all the ingredients)
 
-13) how many dishes/ingredients are there
+DONE 13) how many dishes are there
 
 14) what are the dishes/ingredients
 
